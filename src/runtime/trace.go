@@ -631,6 +631,7 @@ func traceFlush(buf traceBufPtr, pid int32) traceBufPtr {
 		buf = trace.empty
 		trace.empty = buf.ptr().link
 	} else {
+		print("trace")
 		buf = traceBufPtr(sysAlloc(unsafe.Sizeof(traceBuf{}), &memstats.other_sys))
 		if buf == 0 {
 			throw("trace: out of memory")
@@ -934,6 +935,7 @@ func (a *traceAlloc) alloc(n uintptr) unsafe.Pointer {
 		if n > uintptr(len(a.head.ptr().data)) {
 			throw("trace: alloc too large")
 		}
+		print("alloc")
 		block := (*traceAllocBlock)(sysAlloc(unsafe.Sizeof(traceAllocBlock{}), &memstats.other_sys))
 		if block == nil {
 			throw("trace: out of memory")

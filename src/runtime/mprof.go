@@ -204,6 +204,7 @@ func (b *bucket) bp() *blockRecord {
 // Return the bucket for stk[0:nstk], allocating new bucket if needed.
 func stkbucket(typ bucketType, size uintptr, stk []uintptr, alloc bool) *bucket {
 	if buckhash == nil {
+		print("mprof")
 		buckhash = (*[buckHashSize]*bucket)(sysAlloc(unsafe.Sizeof(*buckhash), &memstats.buckhash_sys))
 		if buckhash == nil {
 			throw("runtime: cannot allocate memory")

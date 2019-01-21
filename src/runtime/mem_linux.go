@@ -5,6 +5,7 @@
 package runtime
 
 import (
+	//"runtime/debug"
 	"runtime/internal/atomic"
 	"runtime/internal/sys"
 	"unsafe"
@@ -31,6 +32,8 @@ func sysAlloc(n uintptr, sysStat *uint64) unsafe.Pointer {
 		}
 		return nil
 	}
+	//print("hello!")
+	//debug.PrintStack()
 	mSysStatInc(sysStat, n)
 	return p
 }

@@ -1214,6 +1214,7 @@ func persistentalloc1(size, align uintptr, sysStat *uint64) *notInHeap {
 	}
 
 	if size >= maxBlock {
+		print("persistentalloc1")
 		return (*notInHeap)(sysAlloc(size, sysStat))
 	}
 
@@ -1227,6 +1228,7 @@ func persistentalloc1(size, align uintptr, sysStat *uint64) *notInHeap {
 	}
 	persistent.off = round(persistent.off, align)
 	if persistent.off+size > persistentChunkSize || persistent.base == nil {
+		print("persistentalloc1-2")
 		persistent.base = (*notInHeap)(sysAlloc(persistentChunkSize, &memstats.other_sys))
 		if persistent.base == nil {
 			if persistent == &globalAlloc.persistentAlloc {

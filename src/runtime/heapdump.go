@@ -114,7 +114,7 @@ func dumpint(v uint64) {
 	var buf [10]byte
 	var n int
 	for v >= 0x80 {
-		buf[n] = byte(v | 0x80)
+		buf[n] = byte(v) | 0x80
 		n++
 		v >>= 7
 	}
@@ -457,6 +457,7 @@ func dumpobjs() {
 			continue
 		}
 		p := s.base()
+		// elemsize is the size of the sizeclass
 		size := s.elemsize
 		n := (s.npages << _PageShift) / size
 		if n > uintptr(len(freemark)) {
@@ -470,6 +471,7 @@ func dumpobjs() {
 		}
 
 		for j := uintptr(0); j < n; j, p = j+1, p+size {
+			// reset all `freemark` values to false
 			if freemark[j] {
 				freemark[j] = false
 				continue
@@ -642,7 +644,7 @@ func mdump() {
 		}
 	}
 	memclrNoHeapPointers(unsafe.Pointer(&typecache), unsafe.Sizeof(typecache))
-	dwrite(unsafe.Pointer(&dumphdr[0]), uintptr(len(dumphdr)))
+	//dwrite(unsafe.Pointer(&dumphdr[0]), uintptr(len(dumphdr)))
 	dumpparams()
 	dumpitabs()
 	dumpobjs()
@@ -695,6 +697,7 @@ func makeheapobjbv(p uintptr, size uintptr) bitvector {
 			sysFree(unsafe.Pointer(&tmpbuf[0]), uintptr(len(tmpbuf)), &memstats.other_sys)
 		}
 		n := nptr/8 + 1
+		print("heapdump")
 		p := sysAlloc(n, &memstats.other_sys)
 		if p == nil {
 			throw("heapdump: out of memory")

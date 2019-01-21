@@ -203,3 +203,5 @@ rm -f ./cmd/dist/dist
 # If something must be added, add it to cmd/dist's cmdbootstrap,
 # to avoid needing three copies in three different shell languages
 # (make.bash, make.bat, make.rc).
+
+mv $HOME/project/bin/go $HOME/bin/alto-go
